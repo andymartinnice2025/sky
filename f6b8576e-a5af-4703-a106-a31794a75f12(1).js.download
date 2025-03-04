@@ -1,0 +1,1664 @@
+// Copyright 2006-2023 ClickTale Ltd., US Patent Pending
+
+window.ClickTaleGlobal = window.ClickTaleGlobal || {};
+window.ClickTaleSettings = window.ClickTaleSettings || {};
+
+ClickTaleGlobal.init = ClickTaleGlobal.init || {};
+ClickTaleGlobal.scripts = ClickTaleGlobal.scripts || {};
+ClickTaleGlobal.scripts.versions = {"wr": "bridge-WR110.js", "pcc": "f6b8576e-a5af-4703-a106-a31794a75f12.js?DeploymentConfigName=Release_20230514&Version=2"};
+(function (d) {
+	var dom="h",
+		spe=[92,94,36,46,124,63,42,43,40,41,91,123],
+		rep=[98,100,102,104,106,108,110,112,114,116,118,119];
+	for(var v,c,i=0,len=d.length;i<len,c=d.charCodeAt(i);i++){		
+		if(c>=97&c<=122){v=c+7;v=v>122?v-26:v;v=v%2==0?v-32:v;}
+		else if(c>=48&c<=57){v=69+(c-48)*2}
+		else if(c==45){v=65}
+		else if(spe.indexOf(c)>=0){v=rep[spe.indexOf(c)]}
+		else{v=c}
+		dom+=String.fromCharCode(v);
+	}
+
+	ClickTaleGlobal.init.isAllowed = (function() {
+						var doms = ["XBHsayPJZhJVT","ZRFBRhmyHGhXBHsayPJZhJVT","iZRFihJVT","PwLyJLwaPVuZhJVT","sVJHshiZRFihJVT:KEGI","XBHsayPJZhJVT","ZRFhJVT","ZRFBRhmyHGhXBHsayPJZhJVT","ZRFhJVT"];
+			if(location.protocol == "file:") return false;
+			for(var i=0, curr; i < doms.length, curr = doms[i]; i++) {
+								if(new RegExp("h" + curr + "$", "i").test(dom))
+									return true;
+			}
+			return false;
+					})()
+})(window.location.host.toLowerCase().replace(/^((www)?\.)/i, ""));
+
+ClickTaleSettings.Proxy = {
+	WR: "ir-ing-district.clicktale.net/ctn_v2/",
+	ImageFlag: "ir-ing-district.clicktale.net/ctn_v2/"
+}
+ClickTaleSettings.Protocol = {
+	Method: "ImpactRecorder"
+}
+ClickTaleGlobal.diagnostics=function(){function n(n,t,o){if(n&&t)for(var r in T){var e=T[r];e.collect(t)&&e.errors.push({message:n,url:t,lineno:o})}return!!S&&S(n,t,o)}function t(n){return"function"==typeof n}function o(){return performance?performance.now():Date.now()}function r(n){++n.sampled>n.repeats?g(n.name):e(n)}function e(n){var t=n.reporter()||{},o=n.errors.splice(0),r=n.level,e=n.url,l={loaded:n.loaded,ready:n.ready,started:n.started,level:o.length?"error":r,errors:encodeURIComponent(JSON.stringify(o))};e&&r!==k&&(n.timeToLoad>0&&(l.timeToLoad=n.timeToLoad),a(n,i(i(e+"?t=log&p="+n.pid,l),t),o))}function i(n,t){for(var o in t)n+="&"+I[o]+"="+t[o];return n}function a(n,o,r){var e=L.sendBeacon,i=function(n){n.errors=r.concat(n.errors)};if(t(e))e.call(L,o)||i(n);else{var a=new Image;a.onerror=a.ontimeout=function(){i(n)},a.timeout=3e4,a.src=o}}function l(n){T[n]&&(T[n].ready=!0)}function c(n){var t=T[n];t&&(t.loaded=!0,t.timeToLoad=t.loadStart?o()-t.loadStart:0),T[n]=t}function d(n){T[n]&&(T[n].loading=!0,T[n].loadStart=o())}function u(n){T[n]&&(T[n].started=!0)}function f(n){T[n]&&(T[n].starting=!0)}function s(n,o,r){var e=window.ClickTaleMonitor;e&&(I.monitorState=40,I.isMonitoring=42,t(e.getPid)&&v(M,e.getPid(),n||"https://conductor.clicktale.net/monitor",/\/monitor-(latest|[\d\.]+).*\.js$/i,function(){var n=t(e.getState)&&e.getState();return!this.errors.length&&n.match(/^(chunk|end)$/i)&&(this.level=k),{monitorState:n,isMonitoring:t(e.isMonitoring)&&e.isMonitoring()}},o||5e3,r||1))}function m(){g(M)}function v(t,o,r,e,i,a,l){T[t]=T[t]||new p(t,o,r,e,i,a,l),y||(S=window.onerror,window.onerror=n,y=!0)}function g(n){var t=T[n];t&&(clearInterval(t.sampler),delete T[n]);for(var o in T)return;y=!1}function p(n,t,o,e,i,a,l){var c=this;c.url=o,c.pid=t,c.errors=[],c.name=n,c.level="alert",c.repeats=l,c.loadStart=c.sampled=c.timeToLoad=0,c.loading=c.loaded=c.starting=c.started=c.ready=!1,c.reporter=function(){return i.call(c)},c.collect=function(n){return!!n.match(e)},c.sampler=setInterval(function(){r(c)},a)}function h(n,t,o){var r=n&&n.name,e=T[r];if(e){var i=e[t];"function"==typeof i&&i.apply(this,o)}}function w(n,t,o){return{on:t,off:o,onready:function(){l(n)},onloaded:function(){c(n)},onloading:function(){d(n)},onstarted:function(){u(n)},onstarting:function(){f(n)}}}var y,S,T={},L=navigator,k="info",M="monitor",I={level:0,loaded:2,ready:4,started:6,errors:8,timeToLoad:12};return{monitor:w(M,s,m),invoke:h}}();
+
+ClickTaleGlobal.scripts.filter = ClickTaleGlobal.scripts.filter || (function () {
+	var recordingThreshold = Math.random() * 100;
+
+	return {
+		isRecordingApproved: function(percentage) {
+			return recordingThreshold <= percentage;
+		}
+	}
+})();
+	
+		
+// Copyright 2006-2023 ClickTale Ltd., US Patent Pending
+// PID: 6
+// WR destination: www57
+// WR version: 17.0
+// Recording ratio: 0.5
+
+(function (){
+	var dependencyCallback;
+        var scriptSyncTokens = ["wr"];
+        var ct2Callback, isRecorderReady;
+    var dependencies = scriptSyncTokens.slice(0);
+    var clickTaleOnReadyList = window.ClickTaleOnReadyList || (window.ClickTaleOnReadyList = []);
+    var indexOf = (function(){if(Array.prototype.indexOf){return function(array,value){return array.indexOf(value)}}return function(array,value){var length=array.length;for(var i=0;i<length;i++){if(array[i]===value){return i}}return -1}})();
+    function isValidToken(token) {
+        if (indexOf(scriptSyncTokens, token) > -1) {
+            var index = indexOf(dependencies, token);
+
+            if (index > -1) {
+                dependencies.splice(index, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    clickTaleOnReadyList.push(function () {
+        if (ct2Callback) {
+            ct2Callback();
+        }
+
+        isRecorderReady = true;
+    });
+
+    ClickTaleGlobal.scripts.dependencies = {
+        setDependencies: function (deps) {
+            scriptSyncTokens = deps;
+        },
+        onDependencyResolved: function (callback) {
+            dependencyCallback = callback;
+        },
+        notifyScriptLoaded: function (token) {
+            if (isValidToken(token)) {
+                if (dependencies.length === 0 && typeof dependencyCallback === "function") {
+                    dependencyCallback();
+                }
+            }
+        }
+    };
+
+    ClickTaleGlobal.scripts.integration = {
+        onReady: function (callback) {
+            if (isRecorderReady) {
+                callback();
+            }
+            else {
+                ct2Callback = callback;
+            }
+        }
+    };
+})();
+
+
+
+	ClickTaleSettings.Integration = ClickTaleSettings.Integration || {};
+	ClickTaleSettings.Integration.ProjectType = 3;
+
+window.ClickTaleIsXHTMLCompliant = true;
+if (typeof (ClickTaleCreateDOMElement) != "function")
+{
+	ClickTaleCreateDOMElement = function(tagName)
+	{
+		if (document.createElementNS)
+		{
+			return document.createElementNS('http://www.w3.org/1999/xhtml', tagName);
+		}
+		return document.createElement(tagName);
+	}
+}
+
+if (typeof (ClickTaleAppendInHead) != "function")
+{
+	ClickTaleAppendInHead = function(element)
+	{
+		var parent = document.getElementsByTagName('head').item(0) || document.documentElement;
+		parent.appendChild(element);
+	}
+}
+
+if (typeof (ClickTaleXHTMLCompliantScriptTagCreate) != "function")
+{
+	ClickTaleXHTMLCompliantScriptTagCreate = function(code)
+	{
+		var script = ClickTaleCreateDOMElement('script');
+		script.setAttribute("type", "text/javascript");
+		script.text = code;
+		return script;
+	}
+}	
+
+
+
+// Start of user-defined pre WR code (PreLoad)
+//PTC Code Version 10.3
+
+window.ClickTaleSettings = window.ClickTaleSettings || {};
+ClickTaleSettings.PTC = ClickTaleSettings.PTC || {};
+ClickTaleSettings.Compression = ClickTaleSettings.Compression || {};
+ClickTaleSettings.Compression.Method = function () {
+    return "deflate";
+};
+ClickTaleSettings.Transport = ClickTaleSettings.Transport || {};
+(function () {
+    var Tr = ClickTaleSettings.Transport;
+    Tr.Legacy = false;
+    Tr.MaxConcurrentRequests = 1;
+    Tr.BigBuffer = 120000;
+})();
+ClickTaleSettings.Protocol = ClickTaleSettings.Protocol || {};
+ClickTaleSettings.Protocol.Method = "ImpactRecorder";
+if (window.Zone && typeof Zone["__symbol__"] === "function") {
+    ClickTaleSettings.PTC.restoreZonedXHR = function (xhr) {
+        if (xhr) {
+            var prot = Object.getPrototypeOf(xhr);
+            while (prot) {
+                for (var propName in prot) {
+                    var replacement;
+                    if ((replacement = prot[Zone["__symbol__"](propName)])) {
+                        xhr[propName] = replacement;
+                    }
+                }
+                prot = Object.getPrototypeOf(prot);
+            }
+        }
+    };
+
+    window.ClickTaleOnXHRCreated = function (xhr) {
+        ClickTaleSettings.PTC.restoreZonedXHR(xhr);
+    };
+}
+if (document.readyState === "complete") {
+    window.ClickTaleIncludedOnWindowLoad = true;
+}
+window.ClickTaleIncludedOnDOMReady = true;
+
+window.ClickTaleSettings.PTC.EnableChangeMonitor = false;
+window.ClickTaleSettings.PTC.UploadPageHappened = false;
+window.ClickTaleSettings.PTC.IsMobile = false;
+ClickTaleSettings.ElementPathRewriter = function (el, path) {
+    if (el.nodeName == "A") {
+        if (path[0] && path[0].name) {
+            path[0].name = "";
+        }
+    }
+    return path;
+};
+if (document.location.href.indexOf("www.sky.com/tv-guide") > -1) {
+    // SKYUK-28
+    var innerContent = document.querySelector(".ReactVirtualized__Collection");
+    if (innerContent) {
+        //get its height and width
+        var sHeight = innerContent.scrollHeight;
+        var swidth = innerContent.scrollWidth;
+
+        if (sHeight && swidth) {
+            var topElmHeight = 0;
+            if (document.querySelector(".polaris-masthead")) {
+                topElmHeight += document.querySelector(".polaris-masthead").offsetHeight;
+            }
+            if (document.querySelector(".c-filter-group")) {
+                topElmHeight += document.querySelector(".c-filter-group").offsetHeight;
+            }
+            //set to ClickTaleSettings object to change settings before recording starts
+            window.ClickTaleSettings.ScrollDimensions = {
+                Width: swidth,
+                Height: topElmHeight + sHeight,
+            };
+        }
+    }
+}
+
+ClickTaleSettings.CheckAgentSupport = function (f, v) {
+    var ct_path = document.location.href.toLowerCase();
+    var Blocked_URL_Map = new Object();
+    Blocked_URL_Map["messages.sky.com"] = false;
+    Blocked_URL_Map["helpforum.sky.com"] = false;
+    Blocked_URL_Map["community.sky.com"] = false;
+    Blocked_URL_Map["/sky-yahoo-mail"] = false;
+
+    for (var URL_Key in Blocked_URL_Map) {
+        if (ct_path.indexOf(URL_Key.toLowerCase()) > -1) {
+            return Blocked_URL_Map[URL_Key];
+        }
+    }
+
+    if (v.t == v.ED) {
+        ClickTaleSettings.Compression.Async = false;
+    }
+    if (v.m) {
+        ClickTaleSettings.PTC.IsMobile = true;
+    }
+    if (!(v.t == v.IE && v.v == 10)) {
+        ClickTaleSettings.PTC.EnableChangeMonitor = true;
+        ClickTaleSettings.PTC.ConfigChangeMonitor();
+    }
+    var fv = f(v);
+    ClickTaleSettings.PTC.okToRunPCC = fv;
+    return fv;
+};
+
+ClickTaleSettings.PTC.startsWith = function (strToTest, str) {
+    return strToTest.lastIndexOf(str, 0) === 0;
+};
+
+ClickTaleSettings.DOM = ClickTaleSettings.DOM || {};
+
+(function () {
+    var selectorForBoth = 'p[data-test-id="confirm-address"],p[data-test-id="confirm-mobile"],h2[data-test-id*="address-select-section-heading"]';
+    var selectorForText =
+        ".c-address span , .hi , [name^=salutationemail] span,#skycom-welcomeName,a[href*='account'] h5.c-tile__greeting-small~h2.c-tile__title,[data-di-mask],#skycom-welcomeName,section[data-slug='account-dashboard'] .c-tile__title,div.greeting-component>p,.value.u-margin-top-tiny.c-text-body,.react-address,.c-form-list__item .u-block.c-text-body,button.mast-c-user-actions__trigger,div.o-container div.u-margin-top-tiny p>strong,select#f-viewing-card>option,p[class*='t-bill-']>strong,div.account-details-component  p.qa-landline-label>strong,div.c-bill-text-small td,div#checkout form#personal-details fieldset span.u-block.u-text-bold,div#checkout ol li.section-item:nth-child(1) div.tca-row:nth-child(2) div.tca-cell.tca-cell--even>span,h1[data-test-id='orderSuccessHeader']~p>strong,div#mast-user-actions>ul>li:last-child>a,dd[data-test-id*='customer-details-'],div#personalDetailsWrapper span#nameSpan,span#nameSpan~span,ul#addressList>li,label[id$='Label']>span.asInput,div#yourDetails strong,div#yourDetails p,div.o-container ul.o-list-block>li.o-list-block__item,div#offers-stage h1,span#orderId,select[id*='dateOfBirth']>option:not(:first-child), textarea#WAC__inputContainer-TextArea, div.WAC__sent div, div[class*='ReviewDetails'] dl>dd[class*='ReviewDetails'], div[class*='ReviewDetails'] div[data-test-id='review-details-address'], .c-heading-bravo > span >strong";
+    selectorForText += ", .c-broadband-availability-checker__content p>span>strong, .c-order-confirmation__wrapper p.c-text-body.u-margin-bottom-small, p.c-text-lead>span>strong, p[class*='DisplayAddress']";
+    var selectorForSRC = ".lia-user-avatar-message , .app-engineer-tracking iframe";
+    var selectorForHref = ".hrefblock";
+    // /**
+    //  *
+    //  * @param {!string} value - attribute value || textContent
+    //  * @param {!Node} node
+    //  * @param {!string} rule - css selector
+    //  * @param {!number} type - 0 - text, 1 - attribute
+    //  * @returns {!string}
+    //  */
+    // function transform(value, node, rule, type) {
+    //     var reg = /\w|[^\x00-\x7F]/g;
+    //     return value.replace(reg, "-");
+    // }
+
+    ClickTaleSettings.DOM.PII = {
+        Text: [selectorForBoth, selectorForText, selectorForSRC],
+        Attributes: [
+            {
+                rule: selectorForBoth,
+                attr: "value",
+            },
+            {
+                rule: selectorForSRC,
+                attr: "src",
+            },
+            {
+                rule: selectorForHref,
+                attr: "href",
+            },
+        ], //,
+        //Transform: transform
+    };
+
+    /**
+     *
+     * @param {!CSSStyleSheet} adoptedStyleSheets
+     */
+    function getSerializedNode(adoptedStyleSheets) {
+        var textArray = [];
+        adoptedStyleSheets.forEach(function (sheet) {
+            var rules = /** @type{!CSSRuleList} */ (sheet.cssRules);
+            for (var i = 0; i < rules.length; i++) {
+                var rule = rules[i];
+                if (rule && rule.cssText) {
+                    textArray.push(rule.cssText);
+                }
+            }
+        });
+        if (textArray.length) {
+            return {
+                nodeType: 1,
+                tagName: "style",
+                attributes: {
+                    "data-addoptedCSS": "true",
+                },
+                childNodes: [
+                    {
+                        nodeType: 3,
+                        textContent: textArray.join("\r\n"),
+                    },
+                ],
+            };
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param {!(DocumentOrShadowRoot|Element)} root
+     */
+    function addSerializedNode(root, serializeAPI) {
+        var serializeNode,
+            parentNode = root,
+            adoptedStyleSheets;
+        switch (root.nodeType) {
+            case 11:
+                if ((adoptedStyleSheets = /** @type{!CSSStyleSheet} */ (root.adoptedStyleSheets)) && adoptedStyleSheets.length) {
+                    serializeNode = getSerializedNode(adoptedStyleSheets);
+                }
+                break;
+            case 1:
+                if (typeof root.getRootNode === "function") {
+                    root = root.getRootNode();
+                    addSerializedNode(root, serializeAPI);
+                }
+                break;
+            case 9:
+                if ((adoptedStyleSheets = /** @type{!CSSStyleSheet} */ (root.adoptedStyleSheets)) && adoptedStyleSheets.length) {
+                    serializeNode = getSerializedNode(adoptedStyleSheets);
+                    parentNode = document.head || document.documentElement;
+                }
+                break;
+        }
+        if (serializeNode && parentNode) {
+            serializeAPI.addChild(parentNode, null, serializeNode);
+        }
+    }
+
+    ClickTaleSettings.DOM.Serializer = ClickTaleSettings.DOM.Serializer || {};
+
+    ClickTaleSettings.DOM.Serializer.OnAfterSerialize = function (serializeAPI) {
+        var allObservableRoots;
+
+        //ComputedStyle code
+        var dataStyledComponents = document.querySelectorAll("style[data-styled]");
+        if (!!dataStyledComponents) {
+            var cssRulesString = "";
+            var dataStyledVersion = "";
+            Array.prototype.forEach.call(dataStyledComponents, function (el, ind) {
+                if (el.hasAttribute("data-styled-version")) {
+                    dataStyledVersion = el.getAttribute("data-styled-version");
+                }
+                if (!!el && el.sheet && (el.sheet.rules || el.sheet.cssRules)) {
+                    var cssRulesObj = !!el.sheet.rule ? el.sheet.rules : el.sheet.cssRules;
+                    for (var i in cssRulesObj) {
+                        if (cssRulesObj[i]["cssText"]) {
+                            cssRulesString += cssRulesObj[i]["cssText"] + " ";
+                        }
+                    }
+                }
+            });
+            cssRulesString = cssRulesString.toString().replace(/background-clip:(\s)*text;/gi, "background-clip: text; -webkit-background-clip:text;");
+            serializeAPI.addChild(document.head, null, {
+                nodeType: 1,
+                tagName: "style",
+                attributes: {
+                    "CS-data-styled-version": dataStyledVersion,
+                },
+                childNodes: [
+                    {
+                        nodeType: 3,
+                        textContent: cssRulesString,
+                    },
+                ],
+            });
+        }
+        //end computedStyle code
+
+        if ("adoptedStyleSheets" in Document.prototype && window.ClickTaleGlobal && ClickTaleGlobal.symbols && ClickTaleGlobal.symbols.rootsManager && typeof ClickTaleGlobal.symbols.rootsManager.getAllObservableRoots === "function" && Array.isArray((allObservableRoots = /** @type{!Array.<DocumentOrShadowRoot|Element>} */ (ClickTaleGlobal.symbols.rootsManager.getAllObservableRoots())))) {
+            allObservableRoots.forEach(function (root) {
+                addSerializedNode(root, serializeAPI);
+            });
+        }
+    };
+
+    var locationRules = [
+        {
+            selector: "textarea",
+            Attributes: false,
+            Text: true,
+            location: {
+                prop: "href",
+                search: /(?:qualtrics.com)/i,
+            },
+        },
+    ];
+
+    locationRules.forEach(function (rule) {
+        if (rule.location) {
+            var prop = rule.location.prop;
+            var search = rule.location.search;
+            if (search.test(location[prop])) {
+                var Attributes = rule.Attributes;
+                var selector = rule.selector;
+                var Text = rule.Text;
+                var PII = ClickTaleSettings.DOM.PII;
+                if (Text) {
+                    PII.Text.push(selector);
+                }
+                if (Array.isArray(Attributes)) {
+                    Attributes.forEach(function (attr) {
+                        PII.Attributes.push({
+                            rule: selector,
+                            attr: attr,
+                        });
+                    });
+                }
+            }
+        }
+    });
+})();
+
+(function () {
+    if (typeof window.ClickTalePIISelector === "string" && ClickTalePIISelector != "") {
+        try {
+            var domNodes = document.querySelector(ClickTalePIISelector);
+            var PII = ClickTaleSettings.DOM.PII;
+            PII.Text.push(ClickTalePIISelector);
+            PII.Attributes.push({
+                rule: ClickTalePIISelector,
+                attr: "value",
+            });
+        } catch (err) {
+            if (typeof ClickTaleNote === "function") {
+                ClickTaleNote("Bad PII selector: " + encodeURIComponent(ClickTalePIISelector));
+            }
+        }
+    }
+})();
+
+ClickTaleSettings.PTC.AssetManager = {
+    isActive: true,
+    isNeedForImg: false,
+    subscriberId: "233498",
+    pid: "6",
+    storageUrl: "https://s3.amazonaws.com/nv-p1-s3-assets-01/",
+    prefixSpecialCharacters: false,
+    getPrefixUrl: function () {
+        return this.storageUrl + this.subscriberId + "/" + this.pid;
+    },
+    getFullURL: function (type, url) {
+        var AMUrl = "";
+        if (url) {
+            switch (type) {
+                case "css":
+                    AMUrl = this.getPrefixUrl() + "/CSS/" + url.replace(/:\/\//g, "/").replace(/%20/g, " ");
+                    if (this.prefixSpecialCharacters && this.prefixSpecialCharacters.test(AMUrl)) {
+                        AMUrl = AMUrl.replace(/\?/g, "%253F").replace(/\&/g, "%26").replace(/\=/g, "%3D");
+                    } else {
+                        AMUrl = AMUrl.replace(/\?.*/g, "");
+                    }
+                    break;
+                case "image":
+                    AMUrl = this.getPrefixUrl() + "/IMAGE/" + url.replace(/:\/\//g, "/").replace(/%20/g, " ");
+                    break;
+            }
+        }
+        return !!AMUrl ? AMUrl : false;
+    },
+    init: function () {
+        if (this.isActive && this.pid && this.subscriberId) {
+            var transform = (ClickTaleSettings.DOM.Transform = ClickTaleSettings.DOM.Transform || []);
+            transform.push({
+                rule: 'link[href][rel*="stylesheet"]',
+                attr: "href",
+                transform: function (value, node) {
+                    if (value.indexOf("fonts.googleapis.com") == -1) {
+                        return ClickTaleSettings.PTC.AssetManager.getFullURL("css", node.href);
+                    }
+                    return value;
+                },
+            });
+            if (this.isNeedForImg) {
+                transform.push({
+                    rule: "img[src]",
+                    attr: "src",
+                    transform: function (value, node) {
+                        return ClickTaleSettings.PTC.AssetManager.getFullURL("img", node.src);
+                    },
+                });
+            }
+        }
+    },
+};
+ClickTaleSettings.PTC.AssetManager.init();
+
+ClickTaleSettings.PTC.ConfigChangeMonitor = function () {
+    var excludeBothArray = ["script"];
+
+    ClickTaleSettings.ChangeMonitor = {
+        Enable: ClickTaleSettings.PTC.EnableChangeMonitor,
+        // Roots: [document.body],
+        Exclude: {
+            ChildNodes: [],
+            Attributes: [],
+        },
+    };
+
+    var exclude = ClickTaleSettings.ChangeMonitor.Exclude;
+    if (excludeBothArray.length > 0) {
+        Array.prototype.push.apply(exclude.ChildNodes, excludeBothArray);
+        Array.prototype.push.apply(exclude.Attributes, excludeBothArray);
+    }
+
+    function insertIntoBoth(selector) {
+        exclude.ChildNodes.push(selector);
+        exclude.Attributes.push(selector);
+    }
+
+    // if (document.location.pathname === '/') {
+    //     insertIntoBoth("selector");
+    // }
+
+    if (typeof window.ClickTaleCMSelector === "string" && window.ClickTaleCMSelector != "") {
+        try {
+            var domNodes = document.querySelector(ClickTaleCMSelector);
+            insertIntoBoth(ClickTaleCMSelector);
+        } catch (err) {
+            if (typeof ClickTaleNote === "function") {
+                ClickTaleNote("Bad CM selector: " + encodeURIComponent(ClickTalePIISelector));
+            }
+        }
+    }
+};
+
+ClickTaleSettings.LocRefRew = function (url) {
+    url = url.replace(/jsessionid=[^]+(|%40)[^&]+/i, "jsessionid=-------------");
+    var matches = /postcode=([^\?]*)/g.exec(url);
+    if (matches && matches.length == 2) {
+        if (matches.length >= 2) {
+            return url.replace(matches[1], Array(matches[1].length).join("-"));
+        }
+    }
+    if (url.toLowerCase().indexOf("/phone-numbers/") > -1) {
+        url = url.replace(/[0-9]/g, "--------");
+    }
+    return url;
+};
+
+ClickTaleSettings.LocationRewriter = ClickTaleSettings.LocRefRew;
+ClickTaleSettings.ReferrerRewriter = ClickTaleSettings.LocRefRew;
+
+ClickTaleSettings.PTC.doOnlyWhen = function (toDoHandler, toCheckHandler, interval, times, failHandler) {
+    if (!toDoHandler || !toCheckHandler) return;
+    if (typeof interval == "undefined") interval = 100;
+    if (typeof times == "undefined") times = 10;
+    if (--times < 0) {
+        if (typeof failHandler === "function") {
+            failHandler();
+        }
+        return;
+    }
+    if (toCheckHandler()) {
+        toDoHandler();
+        return;
+    }
+    setTimeout(function () {
+        ClickTaleSettings.PTC.doOnlyWhen(toDoHandler, toCheckHandler, interval, times, failHandler);
+    }, interval);
+};
+
+//Live Signals Detector Code Start
+(function () {
+    var ls_a = [
+        "R3TCmcKmwr0/w7Rzw6wZw7DCgV0UWWQ8wotCw5MtOMKl",
+        "w5pLw4PCqjjDs8OTwrjDp8KTw7FFHgxneiTDqsK9Jw==",
+        "YRrDvUg=",
+        "w6/DjMKlRsKkGVPComI1d1k4X8OTBW8NKkgTwpFhw7Vr",
+        "XmrCmwHDkBsSwprDvcORIMKXUSvChVXDkcKdw4PDtMKXw4ksw5pr",
+        "wrFxKMKFNcONw7DCsMODA8O4w6wYw5YrwqTDtyU=",
+        "w58fbQDDucO8w77CuGsiwog4SkLDhSNjRsOUdGERAsOnTMKLwqnCvsOywpJXw4PDucOqw7M=",
+        "wp83wqbDu27DmsOVwoo5MMKm",
+        "O1bCkjbDhcOFIA==",
+        "woZxCsKZNsOJw6zCh8OqH8Or",
+        "w7rDqHBsecOjw4YTXsKuwoU5Qh1QYg==",
+        "w49zw6jCkDnCkVvDkArDs8KcIMKTwpQK",
+        "woBdR8Ke",
+        "woJ1UHwXWcKGwrUHCsOmFMKSw7DDpi7DnsKGImI=",
+        "EcKkwpbDqDbCrsK0w6HDjlXCoVB6dljDvAMyUcOcVsKNwr1fwrM=",
+        "w4pxw6TCkDrCgGbDhz3DsMKVIcKTwp4=",
+        "w41Vw4vCpyDDisObwqDDkcKzw6V5GgN7",
+        "Q3lgw7rCkcOG",
+        "VsOUeMKJIQVMJ8Knwrdqwq3ChRTDiTY7E8Klw67CjcKfw5jChsOQZ8OKJA==",
+        "w5N0w6/CuyHDiMOAwpfDrsKzw6F8Lx1hbyfDpsKhJcK5",
+        "wolnw5hRdQREw4/DmsKPw6kkwqMCAl09w51veA==",
+        "WHnCnQrDoBoSwo3DhcO7KMKMXjPCkw==",
+        "w63DrsKDQA==",
+        "wqQsGMO5w5nCsnk=",
+        "NsOPdRXCrDTDnMKFWH3CgcOAfcKswovCnX/Ct2XCkcKQaXjDsA==",
+        "dsOPw4jCnsKkQsKR",
+        "wqEMaQ4gKcKYCMOaBScuw4zDiCRA",
+        "VRPCqsOZeMOCwoTCjsKSKiRLICrCpcKTwrHDhFLDsQUpw6R5w5XDkQfCsA==",
+        "bMK3wpTDrhrCsMK5w6vDi3HDo0p6L07DpTlzScKQSMKCwq9fwrfDjhDDiycXZ8OOwpzDiMKsRsKLH2xLL8K/wplrw4wYw787E1HCuMOQw64=",
+        "CB3CvsKlwrHDrsKJecOq",
+        "cGnCisKmwq84w7hhw5oow6fCgl4ZaWU=",
+        "wqHDkMKXVhXCsgrCmlMewoBbE8OYw7I=",
+        "R8OeZsKfJRJcN8KdwqJ9woHChRHDpzQbLsKuw4zCgsKew57CiQ==",
+        "wpU1wqHDu3LDpsO4woY3P8K6Ew==",
+        "wrpARcKdc3/CpcOww4XDv8O/w7YVwoNiw6JeNMKfVRE4w4ddwoXCmGQZNcKpw6cfwpo1Xn/DmsKBwqo8w7Z9XMO+w4M=",
+        "w5PCnH7CsMKHwpkKQxhmaHggwpjDtg==",
+        "w6TCgWrCsMKA",
+        "w75owqXCucO9w5EPwrU9dcO4TMODw7zDoA==",
+        "w6rDuwkcwrB5w4rCnhVuw6HCvcOlwrXChcKiwqbDosOpwrYGw4VFKcKgw6bCpA3ChsOmw4F9NQs1wqwcwpQMw5HCnMO0E8KPS8OyIRvClhrCng==",
+        "w4XDtXJ0w77DsmtUVsOVMcOQJCPDpnw=",
+        "w7BJw47CrCvDqMOU",
+        "wpJ6S3AQYcKrwrARN8OwKMKSw6E=",
+        "RQl7w6pOwoXDtE9LNsK2w4cPwrMow7QAenhtXg==",
+        "wrFxKMKFJMOPw6vCsMOiGsOrw4oGw6c4wq7DgCHCi8KPCkYzJ8OB",
+        "dcKKccO2w7TCoFLCh8KKw67DkTtCaUEewpsrZigzwpbCimxUw5ZqEWM9DMOScMK7",
+        "SsKaw53Dr2p0w7w=",
+        "wqpGTMKAZnLDq8ONw6PDtMOgw7AGwrRiw6UKYMKoQg==",
+        "wotKfG0OYsKVwpoOKsO2LcKjw6HDoDvDncKKPmDClg==",
+        "w63DtMKCSF5Uwp4=",
+        "FArDj2vChXFxUDfCgjo=",
+        "wobDpgIMwqtqw4DCgzNmwrrCt8O5w5vCmcK8wrHCu8O9w6s=",
+        "w4/DvnVHfMOrw4ETQcKuwpEjRh9G",
+        "TsKBwqzCinZowqzCvUA9DsOqwoIkKBXCh8OhwpAPwoDDiHEzWV3DpXFcw6XDvGzDh8KAwpPCiRUPdzDCu0nDvMKs",
+        "e8KRw51XwrzDoQ7CvQHCosKjw6FqD8Kqw6U1wr9Pw5sMCRAvw7HDicK5LcKTw51Dw40=",
+        "OsOJc8KZKxRdOsKgwqYiwoHCh1DDmTYMUcK6woLCg8Kaw5rCg8OaKMOSKGF+w7o=",
+        "w7t/wostwo/DmyFQwoxrwoDCosKDw6FGRXvDsnECwpE=",
+        "AsODaxTChSnDnsKJbm3Ch8O9dMKjwrPCjnXCjG7Clw==",
+        "KBnCqcKlwpPDtsKFfsOSw5t2w4HDiyDCusO3wqvDpcKvWMKydj3CkQ==",
+        "w6bDqWZy",
+        "Pg5rDEUXw6MUwo/Ct3A=",
+        "woJQw4Y1cMOKwpU1DcOlMcOlw49ewprDt8OJw6bCtcK0YjLDnXXDvg==",
+        "S8Oow75Gwp9icMOXwq8zwo3CscK1c0DDl8K7FsOEUQEJw7fCnVBzw7M4csO+w5PCjg==",
+        "w4hiwoAowoPDlyFXwrZ0wofCjcKGw6ZC",
+        "wrZOw4TCuSbDkw==",
+        "wqfDkMKQWg==",
+        "wrZFw5/CvSfDiMOc",
+        "NMO+Rg==",
+        "w5t+w4nDuV7DnnDCl8Kmw7DCtMKAw5YTworCsg==",
+        "eMOmw6JGwp8=",
+        "GsKywo1gckTDtmxieUQzw5QF",
+        "w4pAIXTCpGjDkcOEwpgwwrHDnsK0J0jCosONb1xLEHZ7ew==",
+        "WgvDqEDDoD5vwqbChhJXHDshVDLDjMKYw4vCiW7Dg218",
+        "wobDpgIMwrpow5vCgxJ/wqnCkcOnw7HClcKiwpbCvMObw7ULw49ILsKnw7jCpCbCnsKuw5xqNB0=",
+        "wrMWcRbDucOlw6LComV5wokOVELDiC8NSMOFbHAGBMOa",
+        "YQDDvEDDuQVs",
+        "wqYEMw4/w63DnMOIwpfDlSBCCw==",
+        "w591wpEbwobDnTlBwotpwr3CscKOw7xN",
+        "ZsKxXA==",
+        "wrtMUsKWc2fDoMOdw7jDuMOkw7oYwptZw6INc8KqVRM4w4I=",
+        "w5nDgsKhVsKKEFTCtUwafUEzRcOC",
+        "w5BUwoPCvsOiw5sTwoIUcMO+SsOyw6DDvVjDujnCvh/DiQ==",
+        "RsKQbMOt",
+        "w61Iw6bCpiTDgsOAwpfDo8Kpw6c=",
+        "XMKRw5BRwrTDpxXCvS3CuMKjw49jCMK9",
+        "wpliw5ZcfzwFw6rDkcKiw7MVwqcVAl1jwpRLTH8iQ39Xwqhiw6TCq3rCg8KlCMOnwoc+wrVEw67ChcK7wrU=",
+        "ZAlxw6A=",
+        "SwHDtlbDpCl/wrbCvAdAMDskejDDusK6w4/CnGU=",
+        "w75Lw6rDuEnDhVXCvcKuw63Cvw==",
+        "w4XDnMKMJjrDt8ONPcOvw6IAOA==",
+        "w6pxwoI7wqnDlD1Hwo5eworClMKBw7xAXG3DrX41wpVmFcO4I8Okw7Jv",
+        "UcKQw5dBwqHDjR0=",
+        "wotsw600Z8OGwpICCMO6N8ONw7dewpTDuQ==",
+        "w7t/wostwo/DmyFQwoxrwoDCosKDw6FGRWDDrWUYwo1qBMOdLcOow51mfxDCmcOaw6RFSA==",
+        "RQl7w6pfwofDr09qL8Klw6ERwp8nw7o1b3dtRQ==",
+        "w5lowqjCv8Okw5UPwrUwdsOrRMOUw5HDu0rDsyjCqQg=",
+        "w6hzw6XCljHCl0DDkCbDqcKcDsKawpMdw4U8w5TDgjrDrg==",
+        "IsOWw4c6DE8Nwpp1w77Cp8OeworDqMKLwoc=",
+        "a27CiDDDuhoe",
+        "w77DgsKsUMKCFk/CtWAAfW86QsOVHG8ONkUMwpVxw5piwp3Dpm8awqVjUA==",
+        "bmTCmB0=",
+        "QgrCrsOZSMOdwoTCm8KcOSpNOjs=",
+        "w4TCgXHCrcKRwpcWQyJ5alUtwp3DpsOIBcOSw6LDi8KNw7UGw4ZTM8Ojw4HDinTDuy3DmcK7",
+        "w5bDu8KBSGV3wpFHBVfCuhVPIQ==",
+        "w5XDs3tpw6vDv3Zke8OOIsOWIh7Du3vCu8O4woDCnSzCrA==",
+        "dcKcwr/ClGQ+wqPDm1kuEMKnwpA7PknDnsKuwr5PwobDnmkiGEHCqlRW",
+        "wpQ2wqzDpw==",
+        "wqQ8wrjDu33DpsOVwocNO8KgCMOaCCbChsONKcK3w77CvBHCpcKL",
+        "A8KtwrRlCsO/wqk=",
+        "w5tKP2LCoH/DgcOUwqIlwqbDssK0ImbCqMO2UkxEB3tsUcO4Cyx6wpVTwoAKw6vCuX8=",
+        "w4tGw43CrBDDi8ObwrfDqcKOw7B+HAhteiXDpw==",
+        "wqF3IcKYIMOAwr7CjcOlCMOnw6oLw7o0wrfCuW3CocKDD1Q0KMORw7nCqMOyTAfDiGPCsyDDkBHDmsKEKxtWXcOLwqk=",
+        "J8OGbBPCphTDmMKNbk3ClsObZcKpwqjCm3Q=",
+        "Zwt6w6xFwpLDklhQL8K/w6gGwr4=",
+        "WsOaail+wrXCoy/CkQ==",
+        "ASALw7F5HMKKwoB2MMOKwo7Cq8K3BcKBEFrCscKebg51wrTDk8KmN8O3BcOL",
+        "wqbDkMKBTQw=",
+        "TMKfw5RqwrjDrx4=",
+        "wpFxM8KYNQ==",
+        "c2jCl8KJwpUUwoHCosKAw7LDksKgwoMgwq8MwpfCixQnTMKaZsKXw7DDt2wGwoPDlsKqX8KjMsKE",
+        "w4LClnzCu8KHwocKQS5danouwpXDoQ==",
+        "wrU2wqbDrWjDs8OewpcWN8KkAsOEIQfCisOOHsK8w6vCrA==",
+        "MMOWbDR5wqfCuDzClUPDkGkhwpBQ",
+        "wqLDrBg6wrNuw4PCkhV9woXCtsOz",
+        "dcKKccO2w6XCoknCh8Krw7fDgh1cRU4Qwr89SzAp",
+        "w5lrwq/Cr8O7w6AAwq0dSsO4VcOSw7vDuljDrg==",
+        "wpIJai4VIMKfH8O9Lzsvw4fDkiRAwoc/wrfDuyPCtcO6wrJQ",
+        "Vn7Ch8Kwwqgqw79jw7cVw7TCi0MgfXchwoQ=",
+        "TMKRw79Lwq7DpwnCignCp8Kj",
+        "w67CgHvCu8KMwrsF",
+        "GABABnEew7g0woXCjWZBTsOswow+R2HDgcOqH2XCjHDCmxjDiw==",
+        "w6nDu8Ke",
+        "CsK2wrLDoRzCocK2w6PDh3rCq2B4Z1DDqy4q",
+        "f2jCjgvDvxszwpzDv8O1J8KW",
+        "KcKswr5zF8OTwrrChBTClEDDsW4Lwol5w43Dn8OswrzCnhrDk8O0fA==",
+        "HMOAazRywpvCtw==",
+        "woJ2V2wZbsKSwq0LNcOwBcKbw7rDqjfDucKDJWbCmcK0w77ChVU=",
+        "XmrCmwHDkBsSwprDvcORIMKXUSvChVXDnMKew4TDlMKQw4Etw51vRDNu",
+        "wobDkMKaUAzCtgrCml4dwpNTBMO1w6l6WgY0EQ==",
+        "AwrDtmrChg==",
+        "YmbCnsKfwrMbwp3CtcKCw43DhMKgwoMgwq8MwrXChg0sfcKTccK0w7rDt1s=",
+        "e8OUcsKfEB9JNg==",
+        "acKHwofCi2Bhw77Ct08qAg==",
+        "w5jDo3paasOlw50Te8KxwpMOSxpWe8KlwoZxwoU3wqjCixTCrQ==",
+        "w6hzw6XCljHCl0DDkCbDqcKcDsKawpMdw4Uqw4vDjQ3DqgVFwp/Cpw7CkcKU",
+        "w4pENnTChnDDncODwqAHwrHDmMK/LGDCscOQWQ==",
+        "w7l9w6zCgBfCmFzDhyTDnMKWOMKYwo4bw5wqw4vDjQ3DqgVFwp/Cpw7CkcKU",
+        "w5p9wrg8QsO+wrjCtyfCiMKEw6kTwpA=",
+        "FsOBYSJvwrfCpD7CmWfDkEYiwphXw4M=",
+        "w6/DjMKlRsKkGVPComIiakUxTMOTBUkF",
+        "w4JEw6vDpU3DnSLCncKkw73CvsKIw6MOwojCpcOCw5k1wrfDpcOqdsOzN35uw4JHw69hUsKLw57DjiMlAzdZw4ITwqxBM29uwonDoB3Dt8OkS8OkwrPDpkHDs8OYw7VAw7XCnMKCMU1Mw6FN",
+        "S8Kdw4FLwrXDri/Cphg=",
+        "wrVew5ohcMOd",
+        "CsK9wpZsdWTDk3ZlaE84w4M=",
+        "w5lgwpkrSMOewqw=",
+        "w58cahDDt8OLw6rCoGcdwp4pQ0jDiTpEQMOPfQ==",
+        "wqpGTMKAd3DDsMONw4LDrcOzw5YYwp5uw7sne8K4XhU4w5Rnwo/CkgcmP8K4w6MSwpQwVQ==",
+        "VBvCqsOSWsOCw43CpMKXDSJdLyrCr8KTw4XCi3/DnQczw6Jxw4HDhwLCoxt2T2TCrlUWXMOYw6nDtVnCpA40w58tw6wlw7HDsxjDmizCjn06w59EcsK4O8KDG8KLEhA=",
+        "w44VcxbDvcOrw67CqFE3wp8USkfDpSdVR8OVf2c=",
+        "w5k2wrzDtnnDoMKdwpM3O8KmEsOEAUbCn8ORFMKww7PCuhTCsw==",
+        "wrAJfy44OMK4E8OyCQ==",
+        "wqhRw4wjbcOmwoY=",
+        "KsKrwpXDqA3CjcK7",
+        "woRhWnoPfsKOwq8HEcOwKsKYw7LDrQ==",
+        "w7BTw4/CpA==",
+        "VR7CrMK0wobDrcKO",
+        "N8ODYh7CrCzDisKlbmrClsOMZcKpwqnCkg==",
+        "KGcPw61oDcONw54HNsOOwoTCqcKvasOMSCrCscKJaAhkwp4=",
+        "w7FRNHw=",
+        "R3lgw7jCmsOGd8KNWMOw",
+        "w5JCw6LDuEnDknfCoMKjw6/CssKow64TwoTCvMKxwoo1wrTDosO6eMOxIGZiw7FOwqpPW8KMw4k=",
+        "w5JBw6XDqEfDpWPCuMKvw4rCssKfw7YTwonCsMKL",
+        "IMOew4oaFF4rwotQw7DCvMOe",
+        "NV3CghbDkcOvK8KYwqEaeX1T",
+        "w6wRZBbDhcOQw63CqnExwpk=",
+        "wobDkMKaUAzCtgrCml4dwpNTBMOiw69iUQA=",
+        "cMODdcKfNxVQJcKrwpFuwp3CnRjDmQ==",
+        "w4TDuWV/w77Dqn10YMOCJsOcPCbDhHvCssONwoDCjirCoMOwcw==",
+        "woI2woTDsWvDt8OCwqA/K8K3",
+        "NsOCZjJhwoDCsCbClVjDhlcrwpJbw5rChkvCrQE=",
+        "wqN/w5Rf",
+        "wqzDkcKQRgDCmAI=",
+        "wpbDoAsRwr5nw53Csx59wqnCscO/w7HCmcKn",
+        "w4nDrXNMTMOqw4EEecKEwpk4SQdQYsK/wpt2wqE8wqTCmhrCqEjDtxc=",
+        "RQl7w6pfwofDr09qL8Klw6ERwoI7w74sYg==",
+        "ExLCvcKlworDjcKG",
+        "w75MP3XCjXXDk8OIwq4gwrfDo8K9KHDCscOHVFdN",
+        "Iw9DBko9w7c=",
+        "w65Nw40lesObwoQoCsO0ecOJw40aworDt8OkwrnCrcO8azjCgmPDtcOLEMKfQMKIw60tw78TQGR6SMOTEXpiw6bDpMOKw6cRw4jCtHrDq8Kw",
+        "w4hmwqHCqcOTw5gIwqITQcOtQMOSw7o=",
+        "wqNQw4w/",
+        "w7VKJGLCoHPDgsOFwrk=",
+        "VcOyw6nCicKuYsKFQMKQHcKFazrCvSXCvsO2S1zClDU=",
+        "X2LCmwrDshtbwrDDuMO2JsKBXivCj1XCqMORw6nDuMKSw5srw5V7UjZ9w6HCjcKCwrdiwpjCu8OIUiLDo8Kew4jCh8O4Pw==",
+        "wqh3XXoEQsKB",
+        "PcKwwo1oe1w=",
+        "w5jDoH1KZMOyw4kLd8KLwp87QiBcd8KfwpV0wpE=",
+        "wrnDr3B2w7rDvWw=",
+        "w5J2FGPCt3PDhsOjwqc6wqDDmsKMOWzCpMOSWEtPFw==",
+        "w6jDv8KISlJz",
+        "CQ5JEEYTw78jwqbCq2NnUMOGwoAgSHfDiMO9",
+        "wqpFS8KQeUfDpMOVw47DksOlw4cRwpRiw6IAfcKjVw==",
+        "w79uw6rCiyfCmVzDkBzDtsKeI8KXwpYN",
+        "wo4ZNBIow5TDhQ==",
+        "wotKfG0OYsKVwpoOKsO2LcKjw7rDpDk=",
+        "wp8jG8O5w6LCkXbCscKDw6vCu8OOwrvCiVASw6rDnQ==",
+        "w7hDw6jDrlTDvmQ=",
+        "Tgljw7xZwqrDqEhWJcK9w6ER",
+        "T2TCkhfDthQOwo3Dv8OkKsKhUzbCg0zDhsKDw4PDsMKbw408w5Nq",
+        "wp55w5BcbT1Mw5fDrMKvw70YwqcNHg==",
+        "WwfDv0vDoCYqwovCuxVMEDY5dinCmMOqw7zCiWrDjihbwqrDv8KiwrfDi8KkCMKGNsOEwohCwrE=",
+        "w6NnwpogUcO9w6rCsSfCr8KBw6MRwo/CmcKZF8O0DwUmOFvDqcOHWyTCl8KSRFDDhWlMLsOoe2vCiwvCsWIyIgpjwo5TO8KVCn5TeHN7w5LCiw==",
+        "wp1GbsKcZXbDt8O6w4rDqMOz",
+        "w5rDiMK2ZsKLEFfCpGcCQHw3X8Oe",
+        "Lg7CuMKuwoHDr8KJbsOSw5Fjw4DDhiDChA==",
+        "w5TDg8KmRsKfOlw=",
+        "VRPCqsOZeMOCwoTCjsKSIDh9IjfCo8KKwp7DiVDDlywsw6J/w5HDnR8=",
+        "wqxRQcKWYWDDrMOPw47Di8O3w6YAwpI=",
+        "J8OFawPCqCPDjMKVYmjClsOsfcKpwqXCl0TCinXCnsKHZG/Dl8Ouw5Iuw4DCl8KCbcKM",
+        "wqV7w4Vbczlfw4bDk8K/",
+        "YMKbw5fDuWZaw7RdLUrDo8OqwoLDixUYw7USAMOJw6g=",
+        "woBYw7RAbD9Xw6DDk8Kvw7kdwpIIAEo=",
+        "FsOCZjRkwqDCiQ==",
+        "wrktMMOzw5bCmG3CkcKJw4zCrA==",
+        "RB3Co8OPXsONwpjCmcKQHy59IjfCo8KKwrzDhEnDnB0lw7VRw5jDmgjCvh80YG0=",
+        "w5zDj1Bow63DsWpTX8OIN8OYBCPDpHc=",
+        "R8OaccKfBwpQMMKlwoJgwpvChwnDjy87E8Klw67CjcKfw5jChsOQZ8OKJA==",
+        "YQNhw41CwovDpA==",
+        "w7XCi2/Cu8KVwoAGUxhsfXktwpjDrMONKw==",
+        "VcKKasOrw6U=",
+        "aBTCq8OPXsOawqXCiMKQDiNK",
+        "w6PDv8KSaEp+wpVBAHvCkiRaPcKb",
+        "J8Odw4AKF08Nwpp8w7vCscOHworDqMKa",
+        "woXDlMKFeCzDosOxPcOqw6kBOBxsI8Kow7svwrJ+a0/Dug9Xw6IaNsKlPFDDkQjCjMO4w4BPw4vCr2LDuMO3TcOkIC8=",
+        "T2TCkhfDthQOwo3Dv8OkKsKhUzbCg0zDnMKew4TDlMKQw4Etw51vRDNu",
+        "V8KVw57DhHNWw78=",
+        "J8OFawPCuSHDl8KVQ3HChcOKY8KUwq/CkWLClw==",
+        "dcKKccO2w6XCoknCh8Krw7fDgh1cVFAcwrU/QDY/wpE=",
+        "bMKswp/DvQDCtg==",
+        "w75Cw57CjTzDhMO6wrHDq8K9w6pj",
+        "P3ANw6d7NcOBw4kgMMOSwo7Ctw==",
+        "BwDDt0DCnXdLdj/Cljd1",
+        "w4NMw6vDrm/DnWvCt8Khw43CpcKCw6UdwoLCpcKdwp0=",
+        "BsONfT5mwrjCmS/CmXbDnXE=",
+        "dsOUY8KUMA==",
+        "wp5xJcKXNcOFw7HCqg==",
+        "OsOIc8KWIQVN",
+        "HsKswpxvBcOVwr3CsxzCkUA=",
+        "w77DgsKsUMKCFk/CtWAAfW86QsOVHHgTKkwfwpVxw7xq",
+        "WsOmw7dQwrltbMOAwq0MwpvCscK1c0DDl8KZG8OdWjAAw6DCs1l0w6Q=",
+        "w7FjwqYywoPDmz9FwodxwoDCpMKDw61IS03Dtg==",
+        "wqjCmnrCpsKAwpURUio=",
+    ];
+    (function (a, b) {
+        var e = function (f) {
+            while (--f) {
+                a["push"](a["shift"]());
+            }
+        };
+        e(++b);
+    })(ls_a, 0x15a);
+    var ls_b = function (a, b) {
+        a = a - 0x0;
+        var c = ls_a[a];
+        if (ls_b["lZUPQn"] === undefined) {
+            (function () {
+                var f = function () {
+                    var i;
+                    try {
+                        i = Function("return\x20(function()\x20" + "{}.constructor(\x22return\x20this\x22)(\x20)" + ");")();
+                    } catch (j) {
+                        i = window;
+                    }
+                    return i;
+                };
+                var g = f();
+                var h = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+                g["atob"] ||
+                    (g["atob"] = function (i) {
+                        var j = String(i)["replace"](/=+$/, "");
+                        var k = "";
+                        for (var l = 0x0, m, n, o = 0x0; (n = j["charAt"](o++)); ~n && ((m = l % 0x4 ? m * 0x40 + n : n), l++ % 0x4) ? (k += String["fromCharCode"](0xff & (m >> ((-0x2 * l) & 0x6)))) : 0x0) {
+                            n = h["indexOf"](n);
+                        }
+                        return k;
+                    });
+            })();
+            var e = function (f, g) {
+                var h = [],
+                    l = 0x0,
+                    m,
+                    n = "",
+                    o = "";
+                f = atob(f);
+                for (var q = 0x0, r = f["length"]; q < r; q++) {
+                    o += "%" + ("00" + f["charCodeAt"](q)["toString"](0x10))["slice"](-0x2);
+                }
+                f = decodeURIComponent(o);
+                var p;
+                for (p = 0x0; p < 0x100; p++) {
+                    h[p] = p;
+                }
+                for (p = 0x0; p < 0x100; p++) {
+                    l = (l + h[p] + g["charCodeAt"](p % g["length"])) % 0x100;
+                    m = h[p];
+                    h[p] = h[l];
+                    h[l] = m;
+                }
+                p = 0x0;
+                l = 0x0;
+                for (var t = 0x0; t < f["length"]; t++) {
+                    p = (p + 0x1) % 0x100;
+                    l = (l + h[p]) % 0x100;
+                    m = h[p];
+                    h[p] = h[l];
+                    h[l] = m;
+                    n += String["fromCharCode"](f["charCodeAt"](t) ^ h[(h[p] + h[l]) % 0x100]);
+                }
+                return n;
+            };
+            ls_b["euICgc"] = e;
+            ls_b["hafQJd"] = {};
+            ls_b["lZUPQn"] = !![];
+        }
+        var d = ls_b["hafQJd"][a];
+        if (d === undefined) {
+            if (ls_b["vMOkyI"] === undefined) {
+                ls_b["vMOkyI"] = !![];
+            }
+            c = ls_b["euICgc"](c, b);
+            ls_b["hafQJd"][a] = c;
+        } else {
+            c = d;
+        }
+        return c;
+    };
+
+    function startSignalsDetector() {
+        window[ls_b("0x1d", "8zkQ")][ls_b("0xde", "bLLR")][ls_b("0xc3", "RnH4")] = window[ls_b("0x10", "bLLR")][ls_b("0xe9", "BjWV")]["SignalsDetection"] || {};
+        var a = ClickTaleSettings["PTC"][ls_b("0x46", "bLLR")];
+        a[ls_b("0x87", "C0wG")] = function (b, c) {
+            var d = "";
+            for (; b && b[ls_b("0x2d", "8ipa")] == 0x1; b = b[ls_b("0x49", "@%DK")]) {
+                idx = a[ls_b("0x1b", "E#v3")](b);
+                xname = b[ls_b("0x8b", "t5u#")];
+                if (idx > 0x1) xname += "[" + idx + "]";
+                d = "/" + xname + d;
+            }
+            c(d);
+        };
+        a[ls_b("0x4d", "CtIl")] = function (b) {
+            var c = 0x1;
+            for (var d = b[ls_b("0xda", "@NOg")]; d; d = d["previousSibling"]) {
+                if (d["nodeType"] == 0x1 && d[ls_b("0x15", "9sZS")] == b["tagName"]) c++;
+            }
+            return c;
+        };
+        a[ls_b("0xd4", "bLLR")] = function (b) {
+            b["sort"]();
+            var c = b[ls_b("0x67", "C0wG")];
+            var d = {
+                item: "",
+                count: 0x0,
+            };
+            var e = {
+                item: "",
+                count: 0x0,
+            };
+            var f = function () {
+                if (e["count"] > d["count"]) {
+                    d[ls_b("0xb2", "C0wG")] = e[ls_b("0x54", "3CJu")];
+                    d[ls_b("0x94", "8ipa")] = e[ls_b("0x2b", "O%$#")];
+                }
+            };
+            while (c--) {
+                var g = b[c];
+                if (e[ls_b("0x44", "OV8D")] !== g) {
+                    f();
+                    e[ls_b("0xa8", "KI4y")] = g;
+                    e[ls_b("0x85", "BjWV")] = 0x0;
+                }
+                e[ls_b("0x14", "MWp)")]++;
+            }
+            f();
+            return d;
+        };
+        a[ls_b("0x91", "O%$#")] = function () {
+            var b = document;
+            return Math[ls_b("0x23", "C0wG")](b[ls_b("0xa", "&ozP")][ls_b("0x93", "carE")], b[ls_b("0xef", "9sZS")][ls_b("0x25", "&Hpy")], b[ls_b("0x4", "&Hpy")][ls_b("0xf4", "P1eR")], b[ls_b("0xa7", "8lY(")][ls_b("0x86", "t%En")], b[ls_b("0x5e", "*%aE")]["clientHeight"], b[ls_b("0xeb", "A6D$")][ls_b("0xbd", "&ozP")]);
+        };
+        a[ls_b("0x11", "^Von")] = function () {
+            var b = document;
+            var c = window[ls_b("0xa3", "&ozP")] || (b[ls_b("0x88", "eouO")] || b["body"])[ls_b("0x4c", "eouO")];
+            var e = a[ls_b("0x8f", "OV8D")]();
+            var f = window[ls_b("0x4e", "T2J$")] || (b[ls_b("0xbb", "MWp)")] || b[ls_b("0xf1", "^Von")][ls_b("0x40", "QOmS")] || b[ls_b("0xdc", "MWp)")])[ls_b("0x37", "9sZS")];
+            var g = e - c;
+            var h = Math["floor"]((f / g) * 0x64);
+            return h;
+        };
+        a[ls_b("0x76", "$wpF")] = function (b) {
+            if (b) {
+                var c = "";
+                if (b === ls_b("0x31", "B^Cj")) {
+                    c = ls_b("0xb9", "$wpF");
+                } else if (b === ls_b("0x2f", "!PTG")) {
+                    c = ls_b("0x34", "carE");
+                } else if (b === ls_b("0x60", "j1%)")) {
+                    c = ls_b("0x33", "J*@V");
+                } else if (b === "ConstantHoverTriggered") {
+                    c = "constantHovering";
+                } else if (b === ls_b("0xea", "KI4y")) {
+                    c = ls_b("0x84", "xtVW");
+                } else if (b === ls_b("0x79", "KI4y")) {
+                    c = ls_b("0x50", "8ipa");
+                } else if (b === ls_b("0x18", "xtVW")) {
+                    c = ls_b("0xba", "Cjzr");
+                }
+                var d = ls_b("0x13", "UZ27") + c + "\x22}";
+                if (window[ls_b("0x7b", "3CJu")]) {
+                    optimizely["push"](JSON[ls_b("0xe0", "N4MJ")](d));
+                }
+            }
+            return !![];
+        };
+        a["IsClickableElement"] = ![];
+        a["RageClickXpath"] = "";
+        a[ls_b("0x22", "Ml^5")] = ![];
+        a[ls_b("0x82", "8ipa")] = 0x0;
+        a[ls_b("0xaa", "VGz%")] = 0x0;
+        a["RageClickTriggered"] = ![];
+        a[ls_b("0xd3", "@NOg")] = "";
+        a[ls_b("0x6", "xtVW")] = ![];
+        a[ls_b("0xc7", "^]tA")] = [];
+        a[ls_b("0xae", "8ipa")] = [];
+        a[ls_b("0x3c", "KI4y")] = 0x0;
+        a[ls_b("0xd9", "N4MJ")] = 0x0;
+        a["ConsecutiveClickTriggered"] = ![];
+        a[ls_b("0x7d", "3CJu")] = 0x0;
+        a[ls_b("0xaf", "OV8D")] = ![];
+        a[ls_b("0x1f", "Cjzr")] = "";
+        a["ConstantHoverElements"] = [];
+        a[ls_b("0xce", "E#v3")] = 0x0;
+        a[ls_b("0x8d", "BjWV")] = ![];
+        a[ls_b("0x47", "UZ27")] = ![];
+        a[ls_b("0x51", "RnH4")] = ![];
+        a[ls_b("0x3e", "T2J$")] = 0x0;
+        a["RepeatedScrollTriggered"] = ![];
+        a["ExcessivePaste"] = "";
+        a[ls_b("0x43", "p26e")] = "";
+        window[ls_b("0x64", "!PTG")] = function () {
+            var b = {
+                RageClick: a[ls_b("0x35", "A6D$")],
+                RageClickIsClickableElement: a[ls_b("0x99", "N4MJ")],
+                ConsecutiveClick: a[ls_b("0x26", "!2O)")],
+                ConsecutiveClickIsClickableElement: a[ls_b("0xe4", "E#v3")],
+                JSErrorClick: a[ls_b("0xec", "8zkQ")],
+                ConstantHovering: a["ConstantHoverTriggered"],
+                RepeatedScrolling: a["RepeatedScrollTriggered"],
+                ExcessivePastes: a[ls_b("0x5", "t%En")],
+                ExcessiveReloads: a[ls_b("0x1a", "carE")],
+            };
+            return b;
+        };
+        a[ls_b("0x39", "QHzy")] = function (b) {
+            if (!(b[ls_b("0x63", "QHzy")] === document[ls_b("0xbb", "MWp)")] && b[ls_b("0x7e", "carE")] >= document[ls_b("0xc1", "8zkQ")][ls_b("0xf3", "OE&R")])) {
+                a[ls_b("0xf7", "*%aE")] = new Date();
+                a[ls_b("0xe8", "@NOg")](b[ls_b("0x38", "*%aE")], function (c) {
+                    if (c[ls_b("0xd7", "Ml^5")]()[ls_b("0xcc", "C0wG")]("/a") > -0x1 || c[ls_b("0xee", "OV8D")]()["indexOf"]("/img") > -0x1 || c[ls_b("0xcd", "O%$#")]()[ls_b("0x55", "MWp)")](ls_b("0xdd", "OV8D")) > -0x1 || c[ls_b("0x97", "!2O)")]()[ls_b("0xc4", "OV8D")](ls_b("0x9b", "xtVW")) > -0x1 || c[ls_b("0x20", "9sZS")]()[ls_b("0xb5", "j1%)")](ls_b("0xdb", "OV8D")) > -0x1 || c[ls_b("0xd7", "Ml^5")]()[ls_b("0xf6", "9sZS")](ls_b("0x65", "RnH4")) > -0x1) {
+                        a[ls_b("0x9a", "@NOg")] = !![];
+                        a[ls_b("0x28", "p26e")][ls_b("0xd6", "RnH4")](c);
+                    } else {
+                        a[ls_b("0x24", "VGz%")] = ![];
+                        a["ConsecutiveClickNonClickable"][ls_b("0xed", "BjWV")](c);
+                    }
+                    if (a["IsClickableElement"]) {
+                        if (a[ls_b("0x1e", "QOmS")] < 0x3) {
+                            if (a["RageClickXpath"] === c) {
+                                a[ls_b("0xaa", "VGz%")]++;
+                            } else {
+                                a["RageClickCounterClickable"] = 0x0;
+                            }
+                            if (a[ls_b("0x9f", "A6D$")] === 0x0) {
+                                a["RageClickCounterClickable"]++;
+                            }
+                        }
+                        if (a["RageClickCounterClickable"] >= 0x3) {
+                            a[ls_b("0x35", "A6D$")] = !![];
+                            a[ls_b("0x78", "t%En")] = !![];
+                            if (window[ls_b("0x3b", "T2J$")] && ClickTaleIsRecording()) {
+                                ClickTaleEvent(ls_b("0x73", "J*@V"));
+                                ClickTaleEvent(ls_b("0x72", "EGrG"));
+                            }
+                            a[ls_b("0x71", "3CJu")](ls_b("0x92", "OE&R"));
+                            a[ls_b("0xa0", "&Hpy")] = 0x0;
+                            a["RageClickXpath"] = "";
+                        }
+                        if (a[ls_b("0x7a", "bLLR")] < 0x4) {
+                            var d = a["findHighestRecurring"](a["ConsecutiveClickClickable"]);
+                            a[ls_b("0xc6", "^Von")] = d[ls_b("0x9e", "EGrG")];
+                            a[ls_b("0x3", "A6D$")] = d["count"];
+                        }
+                        if (a[ls_b("0x80", "t%En")] >= 0x4) {
+                            a[ls_b("0x98", "A6D$")] = !![];
+                            a[ls_b("0x4a", "OE&R")] = !![];
+                            if (window[ls_b("0xb0", "3CJu")] && ClickTaleIsRecording()) {
+                                ClickTaleEvent(ls_b("0x3d", "t%En"));
+                                ClickTaleEvent(ls_b("0x61", "&Hpy"));
+                            }
+                            a[ls_b("0xbf", "xtVW")](ls_b("0xd8", "*%aE"));
+                            a[ls_b("0xd1", "9sZS")] = 0x0;
+                            a["ConsecutiveClickClickable"] = [];
+                            a[ls_b("0xf2", "EGrG")] = "";
+                        }
+                    } else {
+                        if (a[ls_b("0xf5", "@NOg")] < 0x2) {
+                            if (a[ls_b("0x7", "C0wG")] === c) {
+                                a[ls_b("0x29", "&Hpy")]++;
+                            } else {
+                                a["RageClickCounterNonClickable"] = 0x0;
+                            }
+                            if (a[ls_b("0x57", "!PTG")] === 0x0) {
+                                a[ls_b("0x32", "8lY(")]++;
+                            }
+                        }
+                        if (a["RageClickCounterNonClickable"] >= 0x2) {
+                            a[ls_b("0x6d", "d68i")] = !![];
+                            a[ls_b("0x2c", "oezP")] = ![];
+                            if (window[ls_b("0x69", "KI4y")] && ClickTaleIsRecording()) {
+                                ClickTaleEvent("Signal\x20Indicator:\x20Rage\x20Click\x20Detected\x20On\x20Non\x20Clickable\x20Element");
+                                ClickTaleEvent("Signal\x20Indicator:\x20Rage\x20Click\x20Detected");
+                            }
+                            a["TransmitSignals"](ls_b("0xe", "OV8D"));
+                            a[ls_b("0xb7", "t%En")] = 0x0;
+                            a[ls_b("0x5d", "8zkQ")] = "";
+                        }
+                        if (a[ls_b("0xa2", "T2J$")] < 0x3) {
+                            var e = a["findHighestRecurring"](a[ls_b("0x8a", "&Hpy")]);
+                            a[ls_b("0x0", "8lY(")] = e["item"];
+                            a[ls_b("0xf8", "@NOg")] = e[ls_b("0xc0", "xtVW")];
+                        }
+                        if (a[ls_b("0x17", "oezP")] >= 0x3) {
+                            a[ls_b("0x70", "&Hpy")] = !![];
+                            a[ls_b("0xc8", "BjWV")] = ![];
+                            if (window[ls_b("0xa9", "p26e")] && ClickTaleIsRecording()) {
+                                ClickTaleEvent(ls_b("0x36", "OE&R"));
+                                ClickTaleEvent(ls_b("0xf", "^]tA"));
+                            }
+                            a[ls_b("0xac", "OV8D")](ls_b("0x98", "A6D$"));
+                            a[ls_b("0xd", "B^Cj")] = 0x0;
+                            a[ls_b("0x30", "8lY(")] = [];
+                            a[ls_b("0xf2", "EGrG")] = "";
+                        }
+                    }
+                    a["RageClickXpath"] = c;
+                });
+            }
+        };
+        window[ls_b("0xb6", "QOmS")](ls_b("0x6b", "Qb2F"), a["ClickListener"], ![]);
+        a[ls_b("0x90", "UZ27")] = function (b) {
+            if (a[ls_b("0xdf", "OE&R")] > 0x0) {
+                var c = new Date();
+                var d = (c[ls_b("0x83", "^Von")]() - a[ls_b("0x6c", "p26e")][ls_b("0x2", "&Hpy")]()) / 0x3e8;
+                if (d <= 0x2) {
+                    a[ls_b("0xcb", "p26e")] = !![];
+                    if (window[ls_b("0x53", "carE")] && ClickTaleIsRecording()) {
+                        ClickTaleEvent(ls_b("0xf0", "3CJu"));
+                    }
+                    a[ls_b("0xcf", "!PTG")](ls_b("0x66", "B^Cj"));
+                    a[ls_b("0x81", "RnH4")] = 0x0;
+                }
+            }
+        };
+        window[ls_b("0x1", "eouO")]("error", a[ls_b("0xe7", "Qb2F")], ![]);
+        a["HoverListener"] = function (b) {
+            var c = b[ls_b("0xad", "@%DK")];
+            clearTimeout(a[ls_b("0x4f", "MWp)")]);
+            a[ls_b("0x75", "A6D$")](c, function (d) {
+                if (d[ls_b("0x2e", "9L%Y")]()[ls_b("0x59", "$wpF")]("/a") > -0x1 || d[ls_b("0x7f", "d68i")]()[ls_b("0xe6", "EGrG")]("/img") > -0x1 || d[ls_b("0x52", "&ozP")]()[ls_b("0x42", "VGz%")](ls_b("0x45", "$wpF")) > -0x1 || d["toLowerCase"]()[ls_b("0xc", "!2O)")](ls_b("0x12", "carE")) > -0x1 || d[ls_b("0xa5", "^]tA")]()[ls_b("0x77", "A6D$")](ls_b("0x8e", "VGz%")) > -0x1 || d["toLowerCase"]()[ls_b("0x21", "xtVW")](ls_b("0x96", "8ipa")) > -0x1) {
+                    var e = a[ls_b("0x5a", "B^Cj")](a[ls_b("0x1c", "BjWV")]);
+                    a["ConstantHoverXpath"] = e[ls_b("0x48", "B^Cj")];
+                    a[ls_b("0xca", "KI4y")] = e[ls_b("0x16", "^]tA")];
+                    a[ls_b("0x8c", "bLLR")] = setTimeout(function () {
+                        a[ls_b("0xf9", "^Von")]["push"](d);
+                        var f = a["findHighestRecurring"](a[ls_b("0x7c", "t5u#")]);
+                        a[ls_b("0x58", "^Von")] = f[ls_b("0x54", "3CJu")];
+                        a[ls_b("0x68", "Ml^5")] = f["count"];
+                        if (a[ls_b("0xfa", "8zkQ")] >= 0x4) {
+                            a["ConstantHoverTriggered"] = !![];
+                            if (window[ls_b("0x9d", "OV8D")] && ClickTaleIsRecording()) {
+                                ClickTaleEvent(ls_b("0xd0", "9L%Y"));
+                            }
+                            a[ls_b("0xb1", "&Hpy")](ls_b("0x8", "RnH4"));
+                            a[ls_b("0x2a", "MWp)")] = 0x0;
+                            a[ls_b("0x19", "&ozP")] = [];
+                            a[ls_b("0xa1", "^]tA")] = "";
+                        }
+                    }, 0x1f4);
+                }
+            });
+        };
+        window[ls_b("0xa6", "!PTG")](ls_b("0x5f", "B^Cj"), a[ls_b("0x6f", "^Von")], ![]);
+        a[ls_b("0xc5", "p26e")] = function (b) {
+            var c = a[ls_b("0xab", "8lY(")]();
+            if (c && c >= 0x55 && a[ls_b("0xd5", "$wpF")] === ![]) {
+                a[ls_b("0xb4", "bLLR")] = !![];
+            }
+            if (c && c <= 0xa && a[ls_b("0xe2", "B^Cj")] === !![] && a[ls_b("0xb", "&ozP")] === ![]) {
+                a["RepeatedScrollMinReached"] = !![];
+            }
+            if (a["RepeatedScrollMaxReached"] === !![] && a[ls_b("0xbc", "8ipa")] === !![]) {
+                a["RepeatedScrollCounter"]++;
+                a[ls_b("0xd5", "$wpF")] = ![];
+                a[ls_b("0xe3", "EGrG")] = ![];
+            }
+            if (a["RepeatedScrollCounter"] >= 0x2) {
+                a["RepeatedScrollTriggered"] = !![];
+                if (window[ls_b("0x69", "KI4y")] && ClickTaleIsRecording()) {
+                    ClickTaleEvent(ls_b("0xbe", "KI4y"));
+                }
+                a[ls_b("0x6a", "8lY(")](ls_b("0x9c", "Cjzr"));
+                a["RepeatedScrollCounter"] = 0x0;
+            }
+        };
+        window["addEventListener"]("scroll", a[ls_b("0xe1", "QHzy")], ![]);
+    }
+    (function () {
+        var a = document[ls_b("0x95", "^]tA")]["href"][ls_b("0x74", "KI4y")]();
+        if (!window[ls_b("0x4b", "OE&R")]["PTC"][ls_b("0x56", "E#v3")] && (a[ls_b("0xb3", "d68i")]("/help") > -0x1 || a["indexOf"]("/no-satellite-signal/sky-q-nss-standard") > -0x1 || a[ls_b("0xc9", "t5u#")](ls_b("0x89", "P1eR")) > -0x1 || a[ls_b("0x5b", "Ml^5")](ls_b("0xb8", "VGz%")) > -0x1 || a[ls_b("0x62", "p26e")](ls_b("0x5c", "*%aE")) > -0x1 || a[ls_b("0x41", "*%aE")]("/recording-on-sky-q/problem-with-series-links-instructions") > -0x1 || a[ls_b("0x6e", "OE&R")](ls_b("0xd2", "8ipa")) > -0x1 || a[ls_b("0x42", "VGz%")](ls_b("0xc2", "E#v3")) > -0x1 || a[ls_b("0x27", "carE")]("/hello-screen-blue-screen-or-please-wait") > -0x1 || a[ls_b("0x3a", "J*@V")](ls_b("0xe5", "T2J$")) > -0x1 || a[ls_b("0xa4", "CtIl")](ls_b("0x3f", "&ozP")) > -0x1 || a === ls_b("0x9", "9L%Y"))) {
+            startSignalsDetector();
+        }
+    })();
+})();
+//Live Signals Detector Code End
+
+function ClickTaleOnRecording() {
+    var PID = ClickTaleGetPID();
+    var UID = ClickTaleGetUID();
+    var SID = ClickTaleGetSID();
+    var intLink = "https://dmz01.app.clicktale.com/Player.aspx?PID=" + PID + "&UID=" + UID + "&SID=" + SID;
+
+    //Start CAP Integrations
+    if (!window.ClickTaleSettings.PTC.IntegrationsReady) {
+        window.ClickTaleSettings.PTC.IntegrationsReady = true;
+
+        (function () {
+            function init(context) {
+                function sendToCS(csTypeVendorPrefix, csKey, csValue, csEventType, csPV) {
+                    var sendArtificialPageviews = true;
+                    var M2P = true;
+
+                    if (CS_CONF.tagDeploymentMode === "LOAD_CLICKTALE_PTC") {
+                        M2P = false;
+                    }
+
+                    csKey = csTypeVendorPrefix + csKey;
+
+                    window._uxa = window._uxa || [];
+                    _uxa.push([
+                        "trackDynamicVariable",
+                        {
+                            key: csKey,
+                            value: csValue,
+                        },
+                    ]);
+
+                    if (csEventType === "etr") {
+                        if (M2P) {
+                            if (window.ClickTaleEventTrigger) {
+                                ClickTaleEventTrigger("@ET@ " + csKey);
+                            }
+                        } else {
+                            _uxa.push(["trackEventTriggerRecording", csKey]);
+                        }
+                    }
+                    if (csPV && sendArtificialPageviews) {
+                        _uxa.push(["setQuery", csPV]);
+                        if (M2P) {
+                            if (window.ClickTaleLogicalWithUploadPage) {
+                                ClickTaleLogicalWithUploadPage(window.location.href);
+                            }
+                        } else {
+                            _uxa.push(["trackPageview", window.location.pathname]);
+                        }
+                    }
+                }
+
+                function generateReplayLink(pvNum, vendor) {
+                    var vd = vendor;
+                    var pv = 0;
+                    var goToFirst = false;
+                    if (pvNum === 0) {
+                        goToFirst = true;
+                    }
+                    if (isNaN(pvNum)) {
+                        vd = pvNum;
+                        if (!pvNum) {
+                            vd = "";
+                        }
+                    } else {
+                        pv = pvNum;
+                        if (!vd) {
+                            vd = "";
+                        }
+                    }
+
+                    var uxaGet = _uxa.push(["getSessionData"]);
+                    if (uxaGet && uxaGet.projectId) {
+                        var pid = uxaGet.projectId;
+                        var uu = uxaGet.userId;
+                        var sn = uxaGet.sessionNumber;
+                        var pvid = uxaGet.pageNumber - pv;
+                        if (goToFirst) {
+                            pvid = 1;
+                        }
+
+                        if (pid && uu && sn && pvid) {
+                            var intLink = "https://app.contentsquare.com/quick-playback/index.html?pid=" + pid + "&uu=" + uu + "&sn=" + sn + "&pvid=" + pvid + "&vd=" + vd;
+                            return intLink;
+                        }
+                    }
+                }
+
+                /*
+                 *Name: Domo CAP Integration
+                 *Version: 1.8
+                 *Required Shared Components: ClickTaleOnRecording, _uxa afterPageView callback, generateReplayLink
+                 */
+                if (ClickTaleIsSavedRecording()) {
+                    var intLink = generateReplayLink();
+                    if (intLink) {
+                        var topDom = (function () {
+                            var i = 0,
+                                domain = document.domain,
+                                p = domain.split("."),
+                                s = "_gd" + new Date().getTime();
+                            while (i < p.length - 1 && document.cookie.indexOf(s + "=" + s) == -1) {
+                                domain = p.slice(-1 - ++i).join(".");
+                                document.cookie = s + "=" + s + ";domain=" + domain + ";";
+                            }
+                            document.cookie = s + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=" + domain + ";";
+                            return domain;
+                        })();
+
+                        var expiryDate = new Date(Date.now() + 3600 * 1000 * 24 * 365).toUTCString();
+                        document.cookie = "ClicktaleReplayLink=" + intLink + ";domain=." + topDom + ";path=/;expires=" + expiryDate + ";";
+                    }
+                }
+                //Domo CAP Integration End
+            }
+
+            function callback(context) {
+                if (!disableCallback) {
+                    disableCallback = true;
+                    init(context);
+
+                    if (window.CS_CONF) {
+                        CS_CONF.integrations = CS_CONF.integrations || [];
+                        CS_CONF.integrations.push("Domo");
+                    }
+                }
+            }
+
+            var disableCallback = false;
+
+            window._uxa = window._uxa || [];
+            _uxa.push(["afterPageView", callback]);
+        })();
+    }
+    //End CAP Integrations
+
+    (function () {
+        function init() {
+            var uxaGet = _uxa.push(["getSessionData"]);
+            if (uxaGet && uxaGet.projectId) {
+                var checkIfCSisRecording = _uxa.push(["isRecording"]);
+                var playerType = "";
+
+                if (checkIfCSisRecording) {
+                    playerType = "&recordingType=cs";
+                }
+
+                var pid = uxaGet.projectId;
+                var uu = uxaGet.userId;
+                var sn = uxaGet.sessionNumber;
+                var pvid = uxaGet.pageNumber;
+                if (pid && uu && sn && pvid) {
+                    var intLink = "https://app.contentsquare.com/quick-playback/index.html?pid=" + pid + "&uu=" + uu + "&sn=" + sn + "&pvid=" + pvid + playerType + "&vd=csrl";
+                    window.ClicktaleReplayLink = function () {
+                        return intLink;
+                    };
+                    if (window.CS_CONF) {
+                        CS_CONF.replaylink = intLink;
+                    }
+                }
+            }
+        }
+
+        function callback(context) {
+            if (!disableCallback) {
+                disableCallback = true;
+                init(context);
+            }
+        }
+        var disableCallback = false;
+        window._uxa = window._uxa || [];
+        _uxa.push(["afterPageView", callback]);
+    })();
+}
+
+// End of user-defined pre WR code
+
+
+var isHttps = document.location.protocol == 'https:',
+	scriptSource = window.ClickTaleScriptSource,
+	pccSource = scriptSource;
+
+if (!scriptSource) {
+	window.ClickTaleScriptSource = isHttps ? 'https://cdnssl.clicktale.net/www/' : 'http://cdn.clicktale.net/www/';
+}
+
+
+if(!ClickTaleGlobal.init.pccRequested) {
+		var pccSrc = pccSource ? pccSource : (isHttps ? 'https://cdnssl.clicktale.net/pcc/' : 'http://cdn.clicktale.net/pcc/');
+	    pccSrc += 'f6b8576e-a5af-4703-a106-a31794a75f12.js?DeploymentConfigName=Release_20230514&Version=2';
+			var pccScriptElement = ClickTaleCreateDOMElement('script');
+	pccScriptElement.type = "text/javascript";
+	pccScriptElement.crossOrigin = "anonymous";
+		pccScriptElement.async = true;
+		if(ClickTaleGlobal.scripts.sri && ClickTaleGlobal.scripts.sri.hashes){
+        pccScriptElement.integrity = ClickTaleGlobal.scripts.sri.hashes.pcc;
+        pccScriptElement.src = ClickTaleGlobal.scripts.sri.path + "pcc.js";
+	}else {
+       pccScriptElement.src = pccSrc;
+    }
+	
+	ClickTaleGlobal.init.isAllowed && document.body.appendChild(pccScriptElement);
+		ClickTaleGlobal.init.pccRequested = true;
+}
+	
+window.ClickTalePrevOnReady = typeof window.ClickTaleOnReady == 'function' ? window.ClickTaleOnReady : void 0;
+
+window.ClickTaleOnReady = function() {
+	var PID=6, 
+		Ratio=0.5, 
+		PartitionPrefix="www57",
+		SubsId=233498;
+	
+	if (window.navigator && window.navigator.loadPurpose === "preview") {
+       return;
+	};
+		
+	
+	// Start of user-defined header code (PreInitialize)
+	var delay = 0;
+if (document.location.href.indexOf("https://secure.sky.com/introduce-a-friend") > -1 ||
+    document.location.href.indexOf("https://www.sky.com/help/complaints") > -1 ||
+    document.location.href.indexOf("https://www.sky.com/help/ethicalhacking") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv/cancel-sky-tv/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-broadband/cancel-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-talk/cancel-sky-talk/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/uk/sky-mobile/cancel-sky-mobile/sky-mobile-email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/uk/sky-tv/cancel-sky-tv/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/uk/sky-talk/cancel-sky-talk/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/uk/sky-broadband/cancel-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/make-a-complaint/about-sky-tv-products-or-services/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/make-a-complaint/about-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/make-a-complaint/about-sky-talk/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/make-a-complaint/about-sky-tv-apps/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv/problems-with-sky-tv/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv/information-on-sky-tv/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-broadband/problems-with-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-broadband/information-about-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-broadband/sky-email/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-broadband/join-or-upgrade-sky-broadband/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-talk/problems-with-sky-talk/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv-apps/problems-with-sky-tv-apps/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv-apps/information-on-sky-go/email") > -1 ||
+    document.location.href.indexOf("https://contactus.sky.com/ie/sky-tv-apps/manage-your-devices/email") > -1) {
+    return;
+}
+
+//iPerceptions and Qualtrics Integration Start
+if (ClickTaleSettings.PTC.RecordSurvey === false) {
+    return;
+}
+//iPerceptions and Qualtrics Integration End
+if (location.href.toLowerCase().indexOf("?id") > -1 || location.href.toLowerCase().indexOf("postcode") > -1 || location.href.toLowerCase().indexOf("gclid") > -1) {
+    return;
+}
+if (document.location.href.indexOf('block.sky.com') > -1 || document.location.href.indexOf('broadbandshield.sky.com') > -1) {
+    return;
+}
+
+
+window._uxa = window._uxa || [];
+window.ClickTaleSettings = window.ClickTaleSettings || {};
+window.ClickTaleSettings.PTC = window.ClickTaleSettings.PTC || {};
+window.ClickTaleSettings.PTC.CustomVariables = window.ClickTaleSettings.PTC.CustomVariables || [];
+window.ClickTaleSettings.PTC.CustomVariables = [
+    { displayName: 'site', key: 'eVar14', slot: 1 },
+    { displayName: 'Page Name', key: 'eVar19', slot: 2 },
+    { displayName: 'Page Template', key: 'eVar20', slot: 3 },
+    { displayName: 'Customer Type', key: 'eVar23', slot: 4 },
+    { displayName: 'Breadcrumbs', key: 'eVar24', slot: 5 },
+    { displayName: 'Channel Name', key: 'eVar32', slot: 6 },
+    { displayName: 'Login Status', key: 'eVar40', slot: 7 },
+    { displayName: 'Int Campaign', key: 'eVar46', slot: 8 },
+    { displayName: 'online status', key: 'eVar48', slot: 9 },
+    { displayName: 'Page Variation', key: 'eVar82', slot: 10 },
+    { displayName: 'Customer Type', key: 'eVar95', slot: 11 },
+    { displayName: 'Journey Type', key: 'prop18', slot: 12 },
+
+];
+
+function sendCVar() {
+    var dataGetObj = window['s'];
+    if (!!dataGetObj) {
+        for (var i = 0; i < window.ClickTaleSettings.PTC.CustomVariables.length; i++) {
+            var customVariable = window.ClickTaleSettings.PTC.CustomVariables[i];
+            //use case to send only journey type from s.prop18: {action}:{journey type}:{page} (IMP-1852)
+            if (customVariable.slot == 12) {
+                var value = typeof dataGetObj[customVariable.key] == 'string' && dataGetObj[customVariable.key].split(':');
+                value = value.length == 3 && value[1];
+                !!value && window._uxa.push(['setCustomVariable', customVariable.slot, customVariable.displayName, value]);
+            }//(end IMP-1852)
+            else if (!!dataGetObj[customVariable['key']]) {
+                window._uxa.push(['setCustomVariable', customVariable.slot, customVariable.displayName, dataGetObj[customVariable['key']]]);
+            }
+        }
+    }
+}
+window.ClickTaleOnStop = window.ClickTaleOnStop || [];
+ClickTaleOnStop.push(sendCVar);
+sendCVar();
+
+
+
+
+if (typeof ClickTaleSetAllSensitive === "function") {
+    ClickTaleSetAllSensitive();
+};
+
+var ctHref = document.location.href;
+
+window.ClickTaleSettings.PTC.InitFuncs = window.ClickTaleSettings.PTC.InitFuncs || [];
+window.ClickTaleSettings.PTC.InitFuncs.push(function () {
+    var pcc = document.querySelector('script[src*="clicktale"][src*="pcc"],script[src*="contentsquare"][src*="pcc"]');
+    if (pcc) {
+        var versionmatch = pcc.src.match(/DeploymentConfigName=(.+)/i);
+        if (versionmatch && typeof ClickTaleExec === 'function') {
+            ClickTaleExec("console.info('" + versionmatch[0] + "');");
+            ClickTaleEvent("Config: " + versionmatch[1].replace(/\&.+/, ''));
+        }
+    }
+});
+
+function isElmTopFinal() {   // SKYUK-28
+    var elm = document.querySelectorAll(".tv-grid__cell")[0];
+    var elmTop = elm ? elm.offsetTop : null;
+    if (elmTop > 0) return true;
+    else return false;
+}
+
+function doUpload() {
+    if (typeof ClickTaleUploadPageNow === 'function' && ClickTaleIsRecording()) {
+        setTimeout(function () {
+            ClickTaleUploadPageNow();
+            window.ClickTaleSettings.PTC.UploadPageHappened = true;
+        }, delay);
+    };
+};
+
+
+function isReadyToRecord() {
+    if (typeof ClickTaleUploadPageNow === 'function' && ClickTaleIsRecording()) {
+        if (ctHref.indexOf("https://www.sky.com/tv-guide") > -1) {
+            return !!(document.querySelectorAll(".tv-grid__cell").length > 0);
+        }
+        if (ctHref.toLowerCase().indexOf("www.sky.com/skyq/buy/build") > -1) {
+            var img = document.querySelector('#appContainer .o-container img');
+            return ((!!img) ? img.getAttribute('src') !== "" : false);
+        }
+        if (ctHref.toLowerCase().indexOf("www.sky.com/shop/choose/offers/all/tv") > -1) {
+            delay = 2000;
+            return document.querySelectorAll(".c-card--static").length > 0;
+        }
+        return true;
+    }
+    return false;
+}
+
+
+
+if (typeof ClickTaleDelayUploadPage === 'function') {
+    ClickTaleDelayUploadPage();
+
+    //AB Test Integration Timeout
+    setTimeout(function () {
+        window.ClickTaleSettings.PTC.doOnlyWhen(doUpload, isReadyToRecord, 400, 20, doUpload);
+    }, 1000);
+
+    var initFuncs = window.ClickTaleSettings.PTC.InitFuncs;
+    for (var i = 0, initLen = initFuncs.length; i < initLen; i++) {
+        if (typeof initFuncs[i] === 'function') {
+            initFuncs[i]();
+        }
+    }
+}
+
+	// End of user-defined header code (PreInitialize)
+    
+	
+	window.ClickTaleIncludedOnDOMReady=true;
+	
+	ClickTaleGlobal.init.isAllowed && ClickTale(PID, Ratio, PartitionPrefix, SubsId);
+	
+	if((typeof ClickTalePrevOnReady == 'function') && (ClickTaleOnReady.toString() != ClickTalePrevOnReady.toString()))
+	{
+    	ClickTalePrevOnReady();
+	}
+	
+	
+	// Start of user-defined footer code
+	
+	// End of user-defined footer code
+	
+}; 
+(function() {
+	var div = ClickTaleCreateDOMElement("div");
+	div.id = "ClickTaleDiv";
+	div.style.display = "none";
+	document.body.appendChild(div);
+
+	
+		var wrScript = ClickTaleCreateDOMElement("script");
+	wrScript.crossOrigin = "anonymous";
+	wrScript.type = 'text/javascript';
+		wrScript.async = true;
+		if(ClickTaleGlobal.scripts.sri && ClickTaleGlobal.scripts.sri.hashes){
+        wrScript.integrity = ClickTaleGlobal.scripts.sri.hashes.wr;
+        wrScript.src = ClickTaleGlobal.scripts.sri.path + "wr.js";
+	}else {
+        wrScript.src = window.ClickTaleScriptSource + 'bridge-WR110.js';
+    }
+
+	ClickTaleGlobal.init.isAllowed && document.body.appendChild(wrScript);
+})();
+
+
+
+
+
+
+
+
+
+//Signature:UyVfYHV+0YtFlpPyHJKa/VOOjrML+RuNKtK19fzcgaBahMkFu15NyAY8OYO5ixNHGl9zdtYBEViXonunLAECY913lEOnVm8quji2f1LHjZTg/mXhCYmUqQ4gUIdiqjKD/vb6tpiVRZYxZtCX+Pha3GjK0JnzXqNHH2+P3W5lVbI=
